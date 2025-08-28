@@ -1,0 +1,35 @@
+-- View: V_BAHIA_ESTADO
+-- Description: Vista que muestra las bahías junto con su estado y ubicación.
+CREATE OR REPLACE VIEW V_BAHIA_ESTADO AS
+SELECT
+  b.ID_BAHIA,
+  b.CODIGO       AS CODIGO_BAHIA,
+  b.DESCRIPCION,
+  u.NOMBRE       AS UBICACION,
+  e.CODIGO       AS ESTADO_CODIGO,
+  e.NOMBRE       AS ESTADO_NOMBRE,
+  b.TIPO,
+  b.ACTIVA,
+  b.FECHA_CREACION
+FROM BAHIA b
+LEFT JOIN UBICACION u   ON u.ID_UBICACION = b.ID_UBICACION
+JOIN ESTADO_BAHIA e     ON e.ID_ESTADO    = b.ID_ESTADO;
+
+-- View: V_BAHIA_OCUPACION_ACTUAL
+-- Description: Vista que muestra las bahías junto con su ocupación actual
+CREATE OR REPLACE VIEW V_BAHIA_OCUPACION_ACTUAL AS
+SELECT
+  b.ID_BAHIA,
+  b.CODIGO,
+  CASE
+    WHEN EXISTS (
+      SELECT 1 FROM RESERVA r
+       WHERE r.ID_BAHIA = b.ID_BAHIA
+         AND r.ESTADO IN ('RESERVADA','FINALIZADA')
+         AND r.INICIO_TS < SYSTIMESTAMP
+         AND r.FIN_TS    > SYSTIMESTAMP
+    )
+    THEN 'OCUPADA'
+    ELSE 'LIBRE'
+  END AS OCUPACION_ACTUAL
+FROM BAHIA b;

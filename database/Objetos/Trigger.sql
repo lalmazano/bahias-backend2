@@ -1,0 +1,43 @@
+-- Log de cambios de estado en bahías
+CREATE OR REPLACE TRIGGER TRG_BAHIA_LOG_ESTADO
+BEFORE UPDATE OF ID_ESTADO ON BAHIA
+FOR EACH ROW
+DECLARE
+  v_ant   ESTADO_BAHIA.CODIGO%TYPE;
+  v_nuevo ESTADO_BAHIA.CODIGO%TYPE;
+BEGIN
+  -- Obtiene el estado anterior y nuevo en texto
+  SELECT CODIGO INTO v_ant   FROM ESTADO_BAHIA WHERE ID_ESTADO = :OLD.ID_ESTADO;
+  SELECT CODIGO INTO v_nuevo FROM ESTADO_BAHIA WHERE ID_ESTADO = :NEW.ID_ESTADO;
+
+  -- Inserta en historial
+  INSERT INTO HISTORIAL_BAHIA (ID_BAHIA, ESTADO_ANT, ESTADO_NUEVO, USUARIO_ACCION)
+  VALUES (:OLD.ID_BAHIA, v_ant, v_nuevo, SYS_CONTEXT('USERENV','SESSION_USER'));
+END;
+
+
+-- Evitar solapes de bahías
+CREATE OR REPLACE TRIGGER TRG_RESERVA_NO_SOLAPES
+BEFORE INSERT OR UPDATE OF ID_BAHIA, INICIO_TS, FIN_TS, ESTADO ON RESERVA
+FOR EACH ROW
+DECLARE
+  v_count NUMBER;
+BEGIN
+  -- Solo valida si la reserva está activa
+  IF :NEW.ESTADO IN ('RESERVADA','FINALIZADA') THEN
+    SELECT COUNT(*)
+      INTO v_count
+      FROM RESERVA r
+     WHERE r.ID_BAHIA = :NEW.ID_BAHIA
+       AND NVL(r.ID_RESERVA, -1) <> NVL(:NEW.ID_RESERVA, -1) -- ignora la misma reserva
+       AND r.ESTADO IN ('RESERVADA','FINALIZADA')
+       -- condición de solape
+       AND r.INICIO_TS < :NEW.FIN_TS
+       AND r.FIN_TS    > :NEW.INICIO_TS;
+
+    IF v_count > 0 THEN
+      RAISE_APPLICATION_ERROR(-20001, 'Existe una reserva solapada para esta bahía.');
+    END IF;
+  END IF;
+END;
+/
