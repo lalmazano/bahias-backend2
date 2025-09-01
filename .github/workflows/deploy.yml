@@ -13,11 +13,11 @@ jobs:
         run: git pull origin main
 
       - name: Construir contenedores
-        working-directory: /opt/repositorio/bahias-bahias-backend2
+        working-directory: /opt/repositorio/bahias-backend2
         run: docker compose build
 
       - name: Reiniciar servicios
-        working-directory: /opt/repositorio/bahias-bahias-backend2
+        working-directory: /opt/repositorio/bahias-backend2
         run: |
           docker compose down
           docker compose up -d
