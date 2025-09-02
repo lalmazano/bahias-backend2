@@ -1,0 +1,20 @@
+#Servicio Base de Datos
+version: '3.8'
+services:
+  oracle-db:
+    container_name: oracle-db
+    image: container-registry.oracle.com/database/express:latest
+    environment:
+      - ORACLE_PWD=Luis1234  # Contraseña de SYS y SYSTEM
+      - ORACLE_CHARACTERSET=AL32UTF8  # Opcional: especifica el charset
+    ports:
+      - "1521:1521"  # Mapea el puerto 1521 para Oracle
+#    volumes:
+#      - ./opt/oracle/data:/opt/oracle/oradata  # Persistencia de datos para Oracle
+#      - ./opt/oracle/scripts:/opt/oracle/scripts/setup  # Carpeta donde pondrás el script SQL
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "1521"]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+    restart: always
