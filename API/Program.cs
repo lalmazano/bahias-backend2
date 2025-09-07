@@ -7,7 +7,12 @@ using System.Text;
 using Shared.Security.Encrypt;
 using Shared.Security.JWT.Interface;
 using Shared.Security.JWT;
-using Oracle.EntityFrameworkCore;
+using Application.Services.Interface;
+using Application.Services;
+using Infrastructure.Repositories.Interface;
+using Infrastructure.Repositories;
+using Api.Mapping;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -26,6 +31,13 @@ builder.Services.AddCors(options =>
 #region Registrar Servicios 
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------//
+builder.Services.AddScoped<IUsuarioService, UsuarioService>();
+builder.Services.AddScoped<IRolService, RolService>();
+builder.Services.AddScoped<IUserRolService, UserRolService>();
+builder.Services.AddScoped<IDataEncriptada, DataEncriptada>();
+builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddAutoMapper(typeof(MappingProfile));
+
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------//
 #endregion
@@ -33,9 +45,14 @@ builder.Services.AddCors(options =>
 #region Registrar Repositorios
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------//
+builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+builder.Services.AddScoped<IRolRepository, RolRepository>();
+builder.Services.AddScoped<IUserRolRepository, UserRolRepository>();
+
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------//
 #endregion
+
 
 #region Conexion a la base de datos
 //Conexion a la base de datos//

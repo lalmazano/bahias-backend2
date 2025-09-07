@@ -25,14 +25,14 @@ public partial class ModelContext : DbContext
     public virtual DbSet<Usuario> Usuarios { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.HasDefaultSchema("ARQUI");
+        modelBuilder.HasDefaultSchema("BAHIAS");
 
 
         modelBuilder.Entity<Rol>(entity =>
         {
             entity.HasKey(e => e.IdRol);
 
-            entity.ToTable("ROL", "ARQUI");
+            entity.ToTable("ROL", "BAHIAS");
 
             entity.Property(e => e.IdRol)
                 .HasColumnType("NUMBER")
@@ -51,7 +51,7 @@ public partial class ModelContext : DbContext
             entity.Property(e => e.Estado)
                 .HasMaxLength(1)
                 .IsUnicode(false)
-                .HasColumnName("ESTADO");
+                .HasColumnName("STATUS");
 
             entity.Property(e => e.Name)
                 .HasMaxLength(50)
@@ -63,15 +63,11 @@ public partial class ModelContext : DbContext
         {
             entity.HasKey(e => new { e.IdUsuario, e.IdRol });
 
-            entity.ToTable("USER_ROL", "ARQUI");
-
-            entity.HasIndex(e => e.IdUsuario, "IDX_USER_ROL_01");
-
-            entity.HasIndex(e => e.IdRol, "IDX_USER_ROL_02");
+            entity.ToTable("USER_ROL", "BAHIAS");
 
             entity.Property(e => e.IdUsuario)
                 .HasColumnType("NUMBER")
-                .HasColumnName("ID_USUARIO");
+                .HasColumnName("ID_USER");
 
             entity.Property(e => e.IdRol)
                 .HasColumnType("NUMBER")
@@ -85,23 +81,23 @@ public partial class ModelContext : DbContext
             entity.HasOne(d => d.IdRolNavigation)
                 .WithMany(p => p.UserRols)
                 .HasForeignKey(d => d.IdRol)
-                .HasConstraintName("USER_ROL_FK02");
+                .HasConstraintName("FK_UR_ROL");
 
             entity.HasOne(d => d.IdUsuarioNavigation)
                 .WithMany(p => p.UserRols)
                 .HasForeignKey(d => d.IdUsuario)
-                .HasConstraintName("USER_ROL_FK01");
+                .HasConstraintName("FK_UR_USUARIO");
         });
 
         modelBuilder.Entity<Usuario>(entity =>
         {
             entity.HasKey(e => e.IdUsuario);
 
-            entity.ToTable("USUARIO", "ARQUI");
+            entity.ToTable("USUARIO", "BAHIAS");
 
             entity.Property(e => e.IdUsuario)
                 .HasColumnType("NUMBER")
-                .HasColumnName("ID_USUARIO");
+                .HasColumnName("ID_USER");
 
             entity.Property(e => e.CreatedAt)
                 .HasPrecision(6)
@@ -116,7 +112,7 @@ public partial class ModelContext : DbContext
             entity.Property(e => e.Estado)
                 .HasMaxLength(1)
                 .IsUnicode(false)
-                .HasColumnName("ESTADO");
+                .HasColumnName("STATUS");
 
             entity.Property(e => e.Lastname)
                 .HasMaxLength(100)
