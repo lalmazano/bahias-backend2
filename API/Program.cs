@@ -81,12 +81,12 @@ builder.Services.AddDbContext<OperationContext>((serviceProvider, options) =>
 var key = builder.Configuration["Jwt:Key"];
 if (string.IsNullOrEmpty(key))
 {
-    Console.WriteLine("Error: La clave JWT no está configurada.");
-    throw new Exception("La clave JWT es nula o vacía. Verifica la configuración en appsettings.json.");
+    Console.WriteLine("Error: La clave JWT no estï¿½ configurada.");
+    throw new Exception("La clave JWT es nula o vacï¿½a. Verifica la configuraciï¿½n en appsettings.json.");
 }
 // Registrar el servicio de JWT
 builder.Services.AddScoped<IJwtService>(provider => new JwtService(key));
-// Configurar autenticación JWT
+// Configurar autenticaciï¿½n JWT
 var keyBytes = Encoding.ASCII.GetBytes(key);
 builder.Services.AddAuthentication(options =>
 {
@@ -99,17 +99,17 @@ builder.Services.AddAuthentication(options =>
     {
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(keyBytes),
-        ValidateIssuer = false, // Cambia a true si necesitas un emisor específico
-        ValidateAudience = false, // Cambia a true si necesitas una audiencia específica
-        ValidateLifetime = true // Verifica si el token está expirado
+        ValidateIssuer = false, // Cambia a true si necesitas un emisor especï¿½fico
+        ValidateAudience = false, // Cambia a true si necesitas una audiencia especï¿½fica
+        ValidateLifetime = true // Verifica si el token estï¿½ expirado
     };
 });
 
-// Habilitar autorización global
+// Habilitar autorizaciï¿½n global
 builder.Services.AddAuthorization(options =>
 {
     options.FallbackPolicy = new Microsoft.AspNetCore.Authorization.AuthorizationPolicyBuilder()
-        .RequireAuthenticatedUser() // Requiere que todos los usuarios estén autenticados
+        .RequireAuthenticatedUser() // Requiere que todos los usuarios estï¿½n autenticados
         .Build();
 });
 
@@ -124,7 +124,7 @@ builder.Services.AddSwaggerGen(options =>
 {
     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
-        Description = "Ingrese el token JWT en el formato: Bearer {token} (el prefijo 'Bearer' se agrega automáticamente).",
+        Description = "Ingrese el token JWT en el formato: Bearer {token} (el prefijo 'Bearer' se agrega automï¿½ticamente).",
         Name = "Authorization",
         In = ParameterLocation.Header,
         Type = SecuritySchemeType.ApiKey,
@@ -149,11 +149,13 @@ builder.Services.AddSwaggerGen(options =>
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
+/*if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+}*/
+    app.UseSwagger();
+    app.UseSwaggerUI();
 
 #endregion
 
