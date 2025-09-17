@@ -23,6 +23,7 @@ public partial class ModelContext : DbContext
     public virtual DbSet<Rol> Rols { get; set; }
     public virtual DbSet<UserRol> UserRols { get; set; }
     public virtual DbSet<Usuario> Usuarios { get; set; }
+    public virtual DbSet<EstadoBahium> EstadoBahia { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.HasDefaultSchema("BAHIAS");
@@ -138,6 +139,33 @@ public partial class ModelContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("USERNAME");
         });
+
+        #region Tablas Bahias
+
+        modelBuilder.Entity<EstadoBahium>(entity =>
+        {
+            entity.HasKey(e => e.IdEstado);
+
+            entity.ToTable("ESTADO_BAHIA", "BAHIAS");
+
+            entity.Property(e => e.IdEstado)
+                .HasColumnType("NUMBER")
+                .HasColumnName("ID_ESTADO");
+            entity.Property(e => e.Descripcion)
+                .HasMaxLength(200)
+                .IsUnicode(false)
+                .HasColumnName("DESCRIPCION");
+            entity.Property(e => e.Nombre)
+                .HasMaxLength(60)
+                .IsUnicode(false)
+                .HasColumnName("NOMBRE");
+        });
+
+
+
+
+
+        #endregion
 
         OnModelCreatingPartial(modelBuilder);
     }

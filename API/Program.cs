@@ -37,6 +37,7 @@ builder.Services.AddScoped<IUserRolService, UserRolService>();
 builder.Services.AddScoped<IDataEncriptada, DataEncriptada>();
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddAutoMapper(typeof(MappingProfile));
+builder.Services.AddScoped<IEstadoBahiasService, EstadoBahiasService>();
 
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------//
@@ -48,6 +49,7 @@ builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<IRolRepository, RolRepository>();
 builder.Services.AddScoped<IUserRolRepository, UserRolRepository>();
+builder.Services.AddScoped<IEstadoBahiasRepository, EstadoBahiasRepository>();
 
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------//

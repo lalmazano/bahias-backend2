@@ -13,7 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Services\Interface\" />
     <Folder Include="Services\Template\" />
   </ItemGroup>
 

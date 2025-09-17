@@ -9,12 +9,10 @@
   <ItemGroup>
     <Folder Include="Database\Context\" />
     <Folder Include="ExternalServices\" />
-    <Folder Include="Repositories\Interface\" />
     <Folder Include="Repositories\Template\" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.19" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.18" />
   </ItemGroup>
 

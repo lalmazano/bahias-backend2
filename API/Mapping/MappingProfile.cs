@@ -10,6 +10,9 @@ namespace Api.Mapping
         {
             CreateMap<Rol, RolDto>().ReverseMap();
             CreateMap<RolDto, Rol> ().ReverseMap();
+            CreateMap<EstadoBahium, EstadoBahium>().ReverseMap();
+
+
 
         }
     }
