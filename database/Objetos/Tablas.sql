@@ -43,7 +43,7 @@ CREATE TABLE BAHIAS.ROL (
 
 ALTER TABLE BAHIAS.ROL ADD CONSTRAINT PK_ROL PRIMARY KEY (ID_ROL);
 
-/* ===================== ESTADO_BAHIA ===================== */--ya 
+/* ===================== ESTADO_BAHIA ===================== */-- terminada en la api
 CREATE TABLE BAHIAS.ESTADO_BAHIA (
   ID_ESTADO     NUMBER,
   NOMBRE        VARCHAR2(60) NOT NULL,
