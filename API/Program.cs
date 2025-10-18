@@ -38,8 +38,13 @@ builder.Services.AddScoped<IDataEncriptada, DataEncriptada>();
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddScoped<IEstadoBahiasService, EstadoBahiasService>();
-
-
+builder.Services.AddScoped<IBahiaService,BahiaService >();
+builder.Services.AddScoped<IEstadoReservaService,EstadoReservaService>();
+builder.Services.AddScoped<IParametroService,ParametroService>();
+builder.Services.AddScoped<IReservaService, ReservaService>();
+builder.Services.AddScoped<ITipoVehiculoService,TipoVehiculoService>();
+builder.Services.AddScoped<IUbicacionService,UbicacionService>();
+builder.Services.AddScoped<IVehiculoService,VehiculoService>();
 //-------------------------------------------------------------------------------------------------------------------------------------------------------//
 #endregion
 
@@ -50,8 +55,13 @@ builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<IRolRepository, RolRepository>();
 builder.Services.AddScoped<IUserRolRepository, UserRolRepository>();
 builder.Services.AddScoped<IEstadoBahiasRepository, EstadoBahiasRepository>();
-
-
+builder.Services.AddScoped<IBahiasRepository,BahiasRepository >();
+builder.Services.AddScoped<IEstadoReservaRepository, EstadoReservaRepository>();
+builder.Services.AddScoped<IParametroRepository,ParametroRepository>();
+builder.Services.AddScoped<IReservaRepository,ReservaRepository>();
+builder.Services.AddScoped<ITipoVehiculoRepository,TipoVehiculoRepository>();
+builder.Services.AddScoped<IUbicacionRepository,UbicacionRepository>();
+builder.Services.AddScoped<IVehiculoRepository,VehiculoRepository>();
 //-------------------------------------------------------------------------------------------------------------------------------------------------------//
 #endregion
 
